@@ -18,7 +18,18 @@ def encrypt_caesar(plaintext):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    ciphertext = ""
+
+    for char in plaintext:
+        cipherchar = ord(char) + 3
+        if cipherchar > ord('z'):
+            cipherchar = cipherchar - ord('z') + ord('a') - 1
+        elif cipherchar > ord('Z') and cipherchar < ord('a'):
+            cipherchar = cipherchar - ord('Z') + ord('A') - 1
+        ciphertext += chr(cipherchar)
+    
+    return ciphertext
+
 
 
 def decrypt_caesar(ciphertext):
@@ -26,7 +37,17 @@ def decrypt_caesar(ciphertext):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    plaintext = ""
+
+    for char in ciphertext:
+        plainchar = ord(char) - 3
+        if plainchar < ord('A'):
+            plainchar = plainchar + ord('Z') - ord('A') + 1
+        elif plainchar > ord('Z') and plainchar < ord('a'):
+            plainchar = plainchar + ord('z') + ord('a') + 1
+        plaintext += chr(plainchar)
+    
+    return plaintext
 
 
 # Vigenere Cipher
@@ -36,7 +57,24 @@ def encrypt_vigenere(plaintext, keyword):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    ciphertext = ""
+    length = 0
+
+    for char in plaintext:
+
+        rot = ord(keyword[length])-ord('A')
+
+        length += 1
+
+        if (length == len(keyword)):
+            length = 0
+
+        cipherchar = ord(char) + rot
+        if cipherchar > ord('Z'):
+            cipherchar = cipherchar - ord('Z') + ord('A') - 1
+        ciphertext += chr(cipherchar)
+    
+    return ciphertext
 
 
 def decrypt_vigenere(ciphertext, keyword):
@@ -44,8 +82,124 @@ def decrypt_vigenere(ciphertext, keyword):
 
     Add more implementation details here.
     """
-    raise NotImplementedError  # Your implementation here
+    plaintext = ""
+    length = 0
 
+    for char in ciphertext:
+        
+        rot = ord(keyword[length])-ord('A')
+
+        length += 1
+
+        if (length == len(keyword)):
+            length = 0
+
+        plainchar = ord(char) - rot
+        if plainchar < ord('A'):
+            plainchar = plainchar + ord('Z') - ord('A') + 1
+        plaintext += chr(plainchar)
+    
+    return plaintext
+
+def encrypt_scytale(plaintext, circumference):
+
+    ciphertext = ""
+
+    ratio = len(plaintext) // circumference
+    
+    for i in range(circumference):
+        ciphertext += "".join([plaintext[ind*circumference+i] for ind in range(ratio) if ind*circumference+i<len(plaintext)])
+
+    return ciphertext
+
+def decrypt_scytale(ciphertext, circumference):
+
+    plaintext = ""
+
+    ratio = len(ciphertext) // circumference
+    
+    for ind in range(ratio):
+        plaintext += "".join([ciphertext[i*ratio+ind] for i in range(circumference) if i*ratio+ind<len(ciphertext)])
+
+    return plaintext
+
+def merge(text1, text2):
+    
+    merged = ""
+
+    for i in range(len(text1)):
+        if(i < len(text2)):
+            merged += "".join([text1[i],text2[i]])
+        else:
+            merged += "".join([text1[i]])
+    
+    return merged
+
+def demerge(text):
+    
+    text1 = ""
+    text2 = ""
+
+    for i in range(len(text)):
+        if(i % 2 == 0):
+            text1 += "".join([text[i]])
+        else:
+            text2 += "".join([text[i]])
+    
+    return text1,text2
+
+def encrypt_railfence(plaintext, num_rails):
+
+    ciphertext = ""
+
+    if (num_rails <= 1):
+        return plaintext
+
+    gap = num_rails*2-2
+
+    ciphertext += "".join(plaintext[slice(0,len(plaintext),gap)])
+
+    for i in range(1,num_rails-1):
+
+        text1 = plaintext[slice(i,len(plaintext),gap)]
+        text2 = plaintext[slice(gap-i,len(plaintext),gap)]
+
+        ciphertext += merge(text1,text2)
+
+    ciphertext += "".join(plaintext[slice(num_rails-1,len(plaintext),gap)])
+
+    return ciphertext
+
+def decrypt_railfence(ciphertext, num_rails):
+
+    plainlist = [char for char in ciphertext]
+
+    if (num_rails <= 1):
+        return ciphertext
+
+    gap = num_rails*2-2
+
+    slc = slice(0,len(ciphertext),gap)
+    length = len(ciphertext[slc])
+    plainlist[slc] = [ciphertext[i] for i in range(length)]
+
+    for i in range(1,num_rails-1):
+        slc1 = slice(i,len(ciphertext),gap)
+        length1 = len(ciphertext[slc1])
+        slc2 = slice(gap-i,len(ciphertext),gap)
+        length2 = len(ciphertext[slc2])
+
+        text1, text2 = demerge(ciphertext[length:length+length1+length2])
+
+        length += length1+length2
+
+        plainlist[slc1] = [char for char in text1]
+        plainlist[slc2] = [char for char in text2]
+
+    slc = slice(num_rails-1,len(ciphertext),gap)
+    plainlist[slc] = [char for char in ciphertext[length:]]
+
+    return "".join(plainlist)
 
 # Merkle-Hellman Knapsack Cryptosystem
 
