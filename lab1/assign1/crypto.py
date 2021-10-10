@@ -201,6 +201,59 @@ def decrypt_railfence(ciphertext, num_rails):
 
     return "".join(plainlist)
 
+def decrypt_int_vigenere(ciphertext, possible_keys):
+
+    allWords = []
+
+    ciphertext = ciphertext.lower()
+
+    with open('words.txt') as f:
+        for line in f:
+            allWords.append(line.strip())
+
+    punctuation = [":","-",".",",","'","/","!","?",";",")","("]
+    
+    for keyword in possible_keys:
+        
+        plaintext = ""
+        length = 0
+
+        for char in ciphertext:
+
+            if(ord(char)>=ord('a') and ord(char)<=ord('z')):
+            
+                rot = ord(keyword[length])-ord('a')
+
+                length += 1
+
+                if (length == len(keyword)):
+                    length = 0
+
+                plainchar = ord(char) - rot
+                if plainchar < ord('a'):
+                    plainchar = plainchar + ord('z') - ord('a') + 1
+                plaintext += chr(plainchar)
+            
+            else:
+                plaintext += char
+
+        wordList = plaintext.split()
+
+        wordList = list(filter(lambda x: x not in punctuation, wordList))
+
+        ok = True
+
+        for word in wordList:
+            if word not in allWords:
+                ok = False
+                break
+        
+        if ok == True:
+            return plaintext
+
+    return ciphertext
+
+
 # Merkle-Hellman Knapsack Cryptosystem
 
 def generate_private_key(n=8):

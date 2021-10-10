@@ -13,6 +13,7 @@ from crypto import (encrypt_caesar, decrypt_caesar,
                     encrypt_vigenere, decrypt_vigenere,
                     encrypt_scytale, decrypt_scytale,
                     encrypt_railfence, decrypt_railfence,
+                    decrypt_int_vigenere,
                     generate_private_key, create_public_key,
                     encrypt_mh, decrypt_mh)
 
@@ -23,7 +24,7 @@ from crypto import (encrypt_caesar, decrypt_caesar,
 
 def get_tool():
     print("* Tool *")
-    return _get_selection("(C)aesar, (V)igenere, (S)cytale, R(ailfence) or (M)erkle-Hellman? ", "CVSRM")
+    return _get_selection("(C)aesar, (V)igenere, (S)cytale, (R)ailfence, (I)ntelligent Vigenere or (M)erkle-Hellman? ", "CVSRIM")
 
 
 def get_action():
@@ -160,6 +161,23 @@ def run_railfence():
 
     set_output(output)
 
+def run_intelligent():
+    data = (get_input(binary=False))
+
+    print("* Transform *")
+
+    print("Decrypting {} using Intelligent Vigenere".format(data))
+
+    possible_keys = []
+
+    with open('words.txt') as f:
+        for line in f:
+            possible_keys.append(line.strip())
+
+    output = decrypt_int_vigenere(data, possible_keys)
+
+    set_output(output)
+
 def run_merkle_hellman():
     action = get_action()
 
@@ -206,6 +224,7 @@ def run_suite():
         'V': run_vigenere,       # Vigenere Cipher
         'S': run_scytale,
         'R': run_railfence,
+        'I': run_intelligent,
         'M': run_merkle_hellman  # Merkle-Hellman Knapsack Cryptosystem
     }
     commands[tool]()
