@@ -6,9 +6,24 @@ In 1-3 sentences per section, comment on your approach to each of the parts of t
 
 # Caesar Cipher
 
+Iterating over the text, and add or subract 3 from the ascii representation.
+Checking special cases like 'Y' + 3 = 'B' 
 
 # Vigenere Cipher
 
+Iterating over the text and the keyword, checking whether it's the end of the keyword.
+
+# Scytale Cipher
+
+I used list comprehension, iterating over circumference and the ratio
+
+# Railfence Cipher
+
+I used slices, iterating over num_rails, checking special cases
+
+# Intelligent Vigenere Cipher
+
+I iterated over the text, checking punctuation, and then I made a word list, checking whether they exists or not.
 
 # Merkle-Hellman Knapsack Cryptosystem
 

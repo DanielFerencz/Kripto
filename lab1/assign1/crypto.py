@@ -4,7 +4,7 @@ File: crypto.py
 ---------------
 Assignment 1: Cryptography
 Course: CS 41
-Name: <YOUR NAME>
+Name: Ferencz Daniel
 SUNet: <SUNet ID>
 
 Replace this with a description of the program.
@@ -18,34 +18,50 @@ def encrypt_caesar(plaintext):
 
     Add more implementation details here.
     """
+
+    if(len(plaintext)<1):
+        print('plaintext length is not greater than 0')
+        raise ValueError
+    
+    if(not plaintext.isupper()):
+        print('plaintext is not in uppercase')
+        raise ValueError
+
     ciphertext = ""
 
     for char in plaintext:
-        cipherchar = ord(char) + 3
-        if cipherchar > ord('z'):
-            cipherchar = cipherchar - ord('z') + ord('a') - 1
-        elif cipherchar > ord('Z') and cipherchar < ord('a'):
-            cipherchar = cipherchar - ord('Z') + ord('A') - 1
-        ciphertext += chr(cipherchar)
-    
+        if (ord(char)>=ord('A') and ord(char)<=ord('Z')):
+            cipherchar = ord(char) + 3
+            if cipherchar > ord('Z'):
+                cipherchar = cipherchar - ord('Z') + ord('A') - 1
+            ciphertext += chr(cipherchar)
+        else:
+            ciphertext += char
     return ciphertext
-
-
 
 def decrypt_caesar(ciphertext):
     """Decrypt a ciphertext using a Caesar cipher.
 
     Add more implementation details here.
     """
+    if(len(ciphertext)<1):
+        print('ciphertext length is not greater than 0')
+        raise ValueError
+    
+    if(not ciphertext.isupper()):
+        print('ciphertext is not in uppercase')
+        raise ValueError
+
     plaintext = ""
 
     for char in ciphertext:
-        plainchar = ord(char) - 3
-        if plainchar < ord('A'):
-            plainchar = plainchar + ord('Z') - ord('A') + 1
-        elif plainchar > ord('Z') and plainchar < ord('a'):
-            plainchar = plainchar + ord('z') + ord('a') + 1
-        plaintext += chr(plainchar)
+        if (ord(char)>=ord('A') and ord(char)<=ord('Z')):
+            plainchar = ord(char) - 3
+            if plainchar < ord('A'):
+                plainchar = plainchar + ord('Z') - ord('A') + 1
+            plaintext += chr(plainchar)
+        else:
+            plaintext += char
     
     return plaintext
 
@@ -57,10 +73,36 @@ def encrypt_vigenere(plaintext, keyword):
 
     Add more implementation details here.
     """
+
+    if(len(plaintext)<1):
+        print('plaintext length is not greater than 0')
+        raise ValueError
+    
+    if(not plaintext.isupper()):
+        print('plaintext is not in uppercase')
+        raise ValueError
+
+    if(len(keyword)<1):
+        print('keyword length is not greater than 0')
+        raise ValueError
+    
+    if(not keyword.isupper()):
+        print('keyword is not in uppercase')
+        raise ValueError
+
+    for char in keyword:
+        if(ord(char)<ord('A') or ord(char)>ord('Z')):
+            print('keyword contains non-alphabetic charaters')
+            raise ValueError
+
     ciphertext = ""
     length = 0
 
     for char in plaintext:
+
+        if(ord(char)<ord('A') or ord(char)>ord('Z')):
+            print('plaintext contains non-alphabetic charaters')
+            raise ValueError
 
         rot = ord(keyword[length])-ord('A')
 
@@ -82,10 +124,36 @@ def decrypt_vigenere(ciphertext, keyword):
 
     Add more implementation details here.
     """
+
+    if(len(ciphertext)<1):
+        print('ciphertext length is not greater than 0')
+        raise ValueError
+    
+    if(not ciphertext.isupper()):
+        print('ciphertext is not in uppercase')
+        raise ValueError
+
+    if(len(keyword)<1):
+        print('keyword length is not greater than 0')
+        raise ValueError
+    
+    if(not keyword.isupper()):
+        print('keyword is not in uppercase')
+        raise ValueError
+
+    for char in keyword:
+        if(ord(char)<ord('A') or ord(char)>ord('Z')):
+            print('keyword contains non-alphabetic charaters')
+            raise ValueError
+
     plaintext = ""
     length = 0
 
     for char in ciphertext:
+
+        if(ord(char)<ord('A') or ord(char)>ord('Z')):
+            print('plaintext contains non-alphabetic charaters')
+            raise ValueError
         
         rot = ord(keyword[length])-ord('A')
 
@@ -101,7 +169,28 @@ def decrypt_vigenere(ciphertext, keyword):
     
     return plaintext
 
-def encrypt_scytale(plaintext, circumference):
+def encrypt_scytale(plaintext, circumference, binary):
+
+
+    if(len(plaintext)<1):
+        print('plaintext length is not greater than 0')
+        raise ValueError
+    
+    if(circumference<1):
+        print('circumference is not greater than 0')
+        raise ValueError
+
+    if binary:
+        cipherlist = []
+
+        ratio = len(plaintext) // circumference
+        
+        for i in range(circumference):
+            cipherlist += [plaintext[ind*circumference+i] for ind in range(ratio) if ind*circumference+i<len(plaintext)]
+
+        ciphertext = bytes(cipherlist)
+
+        return ciphertext
 
     ciphertext = ""
 
@@ -112,7 +201,27 @@ def encrypt_scytale(plaintext, circumference):
 
     return ciphertext
 
-def decrypt_scytale(ciphertext, circumference):
+def decrypt_scytale(ciphertext, circumference, binary):
+
+    if(len(ciphertext)<1):
+        print('ciphertext length is not greater than 0')
+        raise ValueError
+    
+    if(circumference<1):
+        print('circumference is not greater than 0')
+        raise ValueError
+
+    if binary:
+        plainlist = []
+
+        ratio = len(ciphertext) // circumference
+        
+        for i in range(circumference):
+            plainlist += [ciphertext[ind*circumference+i] for ind in range(ratio) if ind*circumference+i<len(ciphertext)]
+
+        plaintext = bytes(plainlist)
+
+        return plaintext
 
     plaintext = ""
 
@@ -150,9 +259,17 @@ def demerge(text):
 
 def encrypt_railfence(plaintext, num_rails):
 
+    if(len(plaintext)<1):
+        print('plaintext length is not greater than 0')
+        raise ValueError
+    
+    if(num_rails<1):
+        print('num_rails is not greater than 0')
+        raise ValueError
+
     ciphertext = ""
 
-    if (num_rails <= 1):
+    if (num_rails == 1):
         return plaintext
 
     gap = num_rails*2-2
@@ -172,9 +289,17 @@ def encrypt_railfence(plaintext, num_rails):
 
 def decrypt_railfence(ciphertext, num_rails):
 
+    if(len(ciphertext)<1):
+        print('ciphertext length is not greater than 0')
+        raise ValueError
+    
+    if(num_rails<1):
+        print('num_rails is not greater than 0')
+        raise ValueError
+
     plainlist = [char for char in ciphertext]
 
-    if (num_rails <= 1):
+    if (num_rails == 1):
         return ciphertext
 
     gap = num_rails*2-2
@@ -202,6 +327,14 @@ def decrypt_railfence(ciphertext, num_rails):
     return "".join(plainlist)
 
 def decrypt_int_vigenere(ciphertext, possible_keys):
+
+    if(len(ciphertext)<1):
+        print('ciphertext length is not greater than 0')
+        raise ValueError
+    
+    if(len(possible_keys)<1):
+        print('possible_keys length is not greater than 0')
+        raise ValueError
 
     allWords = []
 
@@ -276,6 +409,7 @@ def generate_private_key(n=8):
 
     @return 3-tuple `(w, q, r)`, with `w` a n-tuple, and q and r ints.
     """
+    
     raise NotImplementedError  # Your implementation here
 
 def create_public_key(private_key):
@@ -293,6 +427,8 @@ def create_public_key(private_key):
     @return n-tuple public key
     """
     raise NotImplementedError  # Your implementation here
+
+    
 
 
 def encrypt_mh(message, public_key):

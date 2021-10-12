@@ -32,6 +32,11 @@ def get_action():
     print("* Action *")
     return _get_selection("(E)ncrypt or (D)ecrypt? ", "ED")
 
+def get_binary():
+    """Return true if binary"""
+    print("* Binary *")
+    return _get_selection("(B)inary or (N)ot? ", "BN")
+
 
 def get_filename():
     filename = input("Filename? ")
@@ -136,14 +141,15 @@ def run_vigenere():
 def run_scytale():
     action = get_action()
     encrypting = action == 'E'
-    data = (get_input(binary=False))
+    binary = get_binary() == 'B'
+    data = (get_input(binary=binary))
 
     print("* Transform *")
     circumference = int(input("Circumference? "))
 
     print("{}crypting {} using Scytale cipher and circumference {}...".format('En' if encrypting else 'De', data, circumference))
 
-    output = (encrypt_scytale if encrypting else decrypt_scytale)(data, circumference)
+    output = (encrypt_scytale if encrypting else decrypt_scytale)(data, circumference, binary)
 
     set_output(output)
 

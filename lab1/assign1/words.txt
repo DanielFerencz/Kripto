@@ -155,6 +155,7 @@ approve
 approximately
 arab
 architect
+are
 area
 argue
 argument
@@ -344,6 +345,7 @@ british
 broad
 broken
 brother
+brothers
 brown
 brush
 buck
@@ -370,6 +372,7 @@ cable
 cake
 calculate
 call
+came
 camera
 camp
 campaign
@@ -603,6 +606,7 @@ convince
 cook
 cookie
 cooking
+cooks
 cool
 cooperation
 cop
@@ -1208,6 +1212,7 @@ ground
 group
 grow
 growing
+grown
 growth
 guarantee
 guard
@@ -1231,6 +1236,7 @@ happen
 happy
 hard
 hardly
+has
 hat
 hate
 have
@@ -1427,12 +1433,14 @@ involvement
 iraqi
 irish
 iron
+is
 islamic
 island
 israeli
 issue
 it
 italian
+italy
 item
 its
 itself
@@ -1551,6 +1559,7 @@ literary
 literature
 little
 live
+lives
 living
 load
 loan
@@ -1615,6 +1624,7 @@ master
 match
 material
 math
+mathematics
 matter
 may
 maybe
@@ -1694,6 +1704,7 @@ motivation
 motor
 mount
 mountain
+mountains
 mouse
 mouth
 move
@@ -2646,6 +2657,7 @@ taxpayer
 tea
 teach
 teacher
+teaches
 teaching
 team
 tear
@@ -2894,6 +2906,7 @@ war
 warm
 warn
 warning
+was
 wash
 waste
 watch
@@ -2985,6 +2998,7 @@ wrong
 yard
 yeah
 year
+years
 yell
 yellow
 yes
