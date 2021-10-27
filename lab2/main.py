@@ -54,6 +54,3 @@ planText2 = stream2.decryptText(cipherText2)
 print(planText1)
 print(planText2)
 
-
-
-

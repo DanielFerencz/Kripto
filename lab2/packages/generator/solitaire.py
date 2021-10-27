@@ -8,9 +8,15 @@ class Solitaire:
     def __init__(self, deck) -> None:
         self.initialDeck = deck.copy()
         self.deck = deck.copy()
+        self.A = self.deck.index(53)
+        self.B = self.deck.index(54)
 
-        self.A = deck.index(53)
-        self.B = deck.index(54)
+        for i in range(1,55):
+            if i not in deck:
+                raise ValueError("Invalid deck of cards")
+        
+        if len(deck) != 54:
+            raise ValueError("Invalid deck of cards")
 
     def _moveDown(self):
 
