@@ -41,13 +41,13 @@ class BlumBlumShub():
         randList = []
         next = (self.seed ** 2) % self.N
 
-        for i in range(i):
-            for j in range(8):
+        for x in range(i):
+            for y in range(8):
                 next = (next ** 2) % self.N
         
-        for i in range(i,j):
+        for x in range(i,j):
             oneByte = []
-            for j in range(8):
+            for y in range(8):
                 oneByte.append(next%2)
                 next = (next ** 2) % self.N
 
