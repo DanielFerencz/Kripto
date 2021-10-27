@@ -4,7 +4,6 @@ class BlumBlumShub():
     q = 4271
     seed = 0
     N = 0
-    index = 0
     next = 0
 
     def __init__(self, seed):
@@ -24,11 +23,10 @@ class BlumBlumShub():
             for j in range(8):
                 oneByte.append(self.next%2)
                 self.next = (self.next ** 2) % self.N
-                self.index = self.index + 1
             
             randList.append(int(''.join(map(str,oneByte)),2))
         
-        return randList
+        return bytes(randList)
 
     def getInterval(self, i, j):
 
@@ -39,33 +37,18 @@ class BlumBlumShub():
             return []
 
         randList = []
-        next = (self.seed ** 2) % self.N
+        self.next = (self.seed ** 2) % self.N
 
         for x in range(i):
             for y in range(8):
-                next = (next ** 2) % self.N
+                self.next = (self.next ** 2) % self.N
         
         for x in range(i,j):
             oneByte = []
             for y in range(8):
-                oneByte.append(next%2)
-                next = (next ** 2) % self.N
+                oneByte.append(self.next%2)
+                self.next = (self.next ** 2) % self.N
 
             randList.append(int(''.join(map(str,oneByte)),2))
 
-        return randList
-
-    def goTo(self, n):
-
-        if(n < 0):
-            return
-
-        self.index = 0
-        self.next = (self.seed ** 2) % self.N
-
-        for i in range(n-1):
-            for j in range(8):
-                self.next = (self.next ** 2) % self.N
-                self.index = self.index + 1
-
-        return
+        return bytes(randList)
