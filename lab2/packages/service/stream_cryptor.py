@@ -2,6 +2,7 @@ class StreamCryptor:
 
     generator = None
     key = None
+    offSet = 0
 
     def __init__(self, generator, key):
         self.generator = generator(key)
@@ -10,6 +11,8 @@ class StreamCryptor:
     def encryptText(self, plainText):
 
         n = len(plainText)
+
+        self.offSet = self.offSet + n
 
         random_binary = self.generator.get(n)
 
@@ -28,6 +31,8 @@ class StreamCryptor:
 
         n = len(cipherText)
 
+        self.offSet = self.offSet + n
+
         random_binary = self.generator.get(n)
 
         binary_text = [(char) for char in cipherText]
@@ -44,6 +49,8 @@ class StreamCryptor:
     def encryptTextOffset(self, plainText, offset):
 
         n = len(plainText)
+
+        self.offSet = offset + n
 
         random_binary = self.generator.getInterval(offset, offset + n)
 
@@ -62,6 +69,8 @@ class StreamCryptor:
 
         n = len(cipherText)
 
+        self.offSet = offset + n
+
         random_binary = self.generator.getInterval(offset, offset + n)
 
         binary_text = [(char) for char in cipherText]
@@ -74,3 +83,6 @@ class StreamCryptor:
         plainText = bytes(plainText)
 
         return plainText
+
+    def getOffset(self):
+        return self.offSet
