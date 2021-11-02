@@ -7,7 +7,7 @@ class Config:
     generator = None
 
     def __init__(self):
-        """
+        
         deck = []
 
         with open("packages/utils/deck.txt") as file:
@@ -36,7 +36,7 @@ class Config:
 
         self.key = int(number)
         self.generator = BlumBlumShub
-
+        """
         
 
     def getGenerator(self):

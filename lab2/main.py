@@ -48,8 +48,8 @@ cipherText2 = stream1.encryptText(b"Hello en vagyok Dani.")
 print(cipherText1)
 print(cipherText2)
 
-planText1 = stream2.decryptText(cipherText1)
-planText2 = stream2.decryptText(cipherText2)
+planText1 = stream2.decryptTextOffset(cipherText2,20)
+planText2 = stream2.decryptTextOffset(cipherText1,0)
 
 print(planText1)
 print(planText2)
