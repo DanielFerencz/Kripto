@@ -40,17 +40,21 @@ def main():
                 raise Exception()
 
             if data["command"] == "register":
+                for (id, key) in registrations:
+                    if id == data["clientId"]:
+                        registrations.remove((id, key))
+                
+                print("Register with id: {} and publicKey: {}".format(data["clientId"], data["publicKey"]))
                 registrations.append((data["clientId"], data["publicKey"]))
                 connection.sendall(json.dumps({
                     "status": "OK",
                 }).encode())
 
             if data["command"] == "getKey":
-
                 for (id, key) in registrations:
                     if id == data["clientId"]:
                         publicKey = key
-
+                print("Get key with id: {} and publicKey: {}".format(data["clientId"], publicKey))
                 connection.sendall(json.dumps({
                     "publicKey": publicKey,
                 }).encode())

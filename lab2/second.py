@@ -22,7 +22,7 @@ def main():
 
     try:
         data = json.loads(sock.recv(SIZE).decode())
-
+    
         if "status" not in data or data["status"] != "init":
                 print("Problem sending to first. Ignore connection attempt.")
                 raise CustomException(json.dumps({

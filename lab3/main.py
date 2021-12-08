@@ -1,56 +1,15 @@
-from packages.generator.blum_blum_shub import BlumBlumShub
-from packages.generator.solitaire import Solitaire
-from packages.service.stream_cryptor import StreamCryptor
+from packages.generator.merkle_hellman_knapsack import create_public_key, generate_private_key, encrypt_mh, decrypt_mh
 
-"""
-print(BlumBlumShub(123).get(4))
+asd = generate_private_key()
 
-stream1 = StreamCryptor(BlumBlumShub, 123)
-stream2 = StreamCryptor(BlumBlumShub, 123)
+dsa = create_public_key(asd)
 
-cipherText1 = stream1.encryptTextOffset(b"Hello en Dani vagyok.", 3)
-cipherText2 = stream1.encryptTextOffset(b"Hello en vagyok Dani.", 10)
+print(asd, dsa)
 
-print(cipherText1)
-print(cipherText2)
+crypted = encrypt_mh("szia te", dsa)
 
-planText1 = stream2.decryptTextOffset(cipherText2, 10)
-planText2 = stream2.decryptTextOffset(cipherText1, 3)
+print(crypted)
 
-print(planText1)
-print(planText2)
+decrypted = decrypt_mh(crypted, asd)
 
-#binary_text = [bin(ord(char)) for char in 'plainText']
-
-#print(binary_text)
-
-"""
-
-deck = []
-
-with open("deck.txt") as file:
-
-    line = file.readline()
-
-    if line[-1] == '\n':
-        deck = line[:-1].split(' ')
-    else:
-        deck = line.split(' ')
-
-deck = [int(i) for i in deck]
-
-stream1 = StreamCryptor(Solitaire, deck)
-stream2 = StreamCryptor(Solitaire, deck)
-
-cipherText1 = stream1.encryptText(b"Hello en Dani vagyok.")
-cipherText2 = stream1.encryptText(b"Hello en vagyok Dani.")
-
-print(cipherText1)
-print(cipherText2)
-
-planText1 = stream2.decryptTextOffset(cipherText2,20)
-planText2 = stream2.decryptTextOffset(cipherText1,0)
-
-print(planText1)
-print(planText2)
-
+print(decrypted)

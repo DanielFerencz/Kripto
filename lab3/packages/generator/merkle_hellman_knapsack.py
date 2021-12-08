@@ -1,8 +1,13 @@
-import re
 import packages.generator.utils as utils
 import random
 
 # Merkle-Hellman Knapsack Cryptosystem
+
+def generate_key_pair(n=8):
+    private_key = generate_private_key(n)
+    public_key = create_public_key(private_key)
+
+    return (private_key,public_key)
 
 def generate_private_key(n=8):
     """Generate a private key for use in the Merkle-Hellman Knapsack Cryptosystem.
@@ -73,7 +78,7 @@ def encrypt_mh(message, public_key):
     1. Separate the message into chunks the size of the public key (in our case, fixed at 8)
     2. For each byte, determine the 8 bits (the `a_i`s) using `utils.byte_to_bits`
     3. Encrypt the 8 message bits by computing
-         c = sum of a_i * b_i for i = 1 to n
+        c = sum of a_i * b_i for i = 1 to n
     4. Return a list of the encrypted ciphertexts for each chunk in the message
 
     Hint: think about using `zip` at some point
@@ -95,6 +100,12 @@ def encrypt_mh(message, public_key):
         a = utils.byte_to_bits(ord(char))
 
         c.append(sum([a[i]*b[i] for i in range(min(len(a), len(b)))]))
+
+    print("---------------------------")
+    print("--- encrypting msg from ---")
+    print(message)
+    print("--- to ---")
+    print(c)
     
     return c
 
@@ -106,7 +117,7 @@ def decrypt_mh(message, private_key):
     2. Compute s, the modular inverse of r mod q, using the
         Extended Euclidean algorithm (implemented at `utils.modinv(r, q)`)
     3. For each byte-sized chunk, compute
-         c' = cs (mod q)
+        c' = cs (mod q)
     4. Solve the superincreasing subset sum using c' and w to recover the original byte
     5. Reconsitite the encrypted bytes to get the original message back
 
@@ -139,8 +150,11 @@ def decrypt_mh(message, private_key):
                 bits.append(0)
 
         decrypted_message.append(chr(utils.bits_to_byte(bits[::-1])))
+    
+    print("---------------------------")
+    print("--- decrypting msg from ---")
+    print(message)
+    print("--- to ---")
+    print("".join(decrypted_message))
 
     return "".join(decrypted_message)
-
-
-
