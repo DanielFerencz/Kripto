@@ -209,6 +209,10 @@ def main():
 
     deck = sendHalfSecret(sock, private_key, client_public_key)
 
+    print("---- The key ----")
+    print(deck)
+    print("-----------------")
+
     startMessaging(sock, deck)
 
 if __name__ == "__main__":

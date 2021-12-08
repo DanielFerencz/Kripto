@@ -233,9 +233,11 @@ def main():
 
     sock, connection, client_public_key = waitHello(private_key)
 
-    print(client_public_key)
-
     deck = waitHalfSecret(connection, client_public_key, private_key)
+
+    print("---- The key ----")
+    print(deck)
+    print("-----------------")
 
     startMessaging(sock, connection, deck)
     
