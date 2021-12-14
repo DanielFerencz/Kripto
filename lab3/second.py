@@ -14,6 +14,10 @@ class CustomException(Exception):
     pass
 
 def registerPubKey(clientId, public_key):
+
+    print("-------")
+    print("Register public key to the server")
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ("localhost", SERVER_PORT)
     sock.connect(server_address)
@@ -42,6 +46,8 @@ def registerPubKey(clientId, public_key):
         sock.close()
 
 def getPubKey(clientId):
+    print("-------")
+    print("Get the public key of client1")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ("localhost", SERVER_PORT)
     sock.connect(server_address)
@@ -73,6 +79,10 @@ def getPubKey(clientId):
         sock.close()
 
 def waitHello(private_key):
+
+    print("-------")
+    print("Wait hello (id) from client1")
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     address = ('localhost', PORT)
     print ( 'starting up on %s port %s' % address)
@@ -103,6 +113,9 @@ def waitHello(private_key):
 
             client_public_key = getPubKey(clientId1)
 
+            print("-------")
+            print("Send ack (id) to client1")
+
             connection.sendall(json.dumps({
                     "clientId": merkle_hellman.encrypt_mh(str(CLIENT_ID2), client_public_key),
                 }).encode())
@@ -131,6 +144,9 @@ def generateOtherHalfDeck(halfDeck):
 def waitHalfSecret(connection, client_public_key, private_key):
     try:
 
+        print("-------")
+        print("Wait half key from client1")
+
         data = json.loads(connection.recv(SIZE).decode())
 
         if "halfKey" not in data:
@@ -142,6 +158,9 @@ def waitHalfSecret(connection, client_public_key, private_key):
         halfDeck = merkle_hellman.decrypt_mh(data["halfKey"], private_key)
 
         otherHalfDeck = generateOtherHalfDeck(halfDeck)
+
+        print("-------")
+        print("Send half key to client1")
 
         connection.sendall(json.dumps({
                 "halfKey": merkle_hellman.encrypt_mh(otherHalfDeck, client_public_key),
@@ -158,6 +177,9 @@ def convertToKey(deck):
     return [int(i) for i in deck.split(" ")]
 
 def startMessaging(sock, connection, deck):
+
+    print("-------")
+    print("Start conversation with client1")
 
     key = convertToKey(deck)
     

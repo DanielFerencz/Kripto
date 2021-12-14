@@ -15,6 +15,11 @@ class CustomException(Exception):
     pass
 
 def registerPubKey(clientId, public_key):
+
+    print("-------")
+    print("Register public key to the server")
+
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ("localhost", SERVER_PORT)
     sock.connect(server_address)
@@ -43,6 +48,10 @@ def registerPubKey(clientId, public_key):
         sock.close()
 
 def getPubKey(clientId):
+
+    print("-------")
+    print("Get the public key of client2")
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ("localhost", SERVER_PORT)
     sock.connect(server_address)
@@ -75,6 +84,9 @@ def getPubKey(clientId):
 
 def sendHello(private_key, client_public_key):
 
+    print("-------")
+    print("Send hello (id) to client2")
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     first_address = ("localhost", PORT)
@@ -85,6 +97,9 @@ def sendHello(private_key, client_public_key):
         sock.sendall(json.dumps({
             "clientId": merkle_hellman.encrypt_mh(str(CLIENT_ID1), client_public_key)
         }).encode())
+
+        print("-------")
+        print("Wait ack (id) from client2")
 
         data = json.loads(sock.recv(SIZE).decode())
     
@@ -120,6 +135,9 @@ def generateHalfDeck():
 
 def sendHalfSecret(sock, private_key, client_public_key):
 
+    print("-------")
+    print("Send half key to client2")
+
     halfDeck = generateHalfDeck()
 
     try:
@@ -127,6 +145,9 @@ def sendHalfSecret(sock, private_key, client_public_key):
         sock.sendall(json.dumps({
             "halfKey": merkle_hellman.encrypt_mh(halfDeck, client_public_key)
         }).encode())
+
+        print("-------")
+        print("Wait half key from client2")
 
         data = json.loads(sock.recv(SIZE).decode())
     
@@ -150,6 +171,8 @@ def convertToKey(deck):
 
 def startMessaging(sock, deck):
 
+    print("-------")
+    print("Start conversation with client2")
     key = convertToKey(deck)
 
     streamCryptor = StreamCryptor(Solitaire, key)

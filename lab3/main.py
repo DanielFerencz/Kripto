@@ -6,7 +6,7 @@ dsa = create_public_key(asd)
 
 print(asd, dsa)
 
-crypted = encrypt_mh("szia te", dsa)
+crypted = encrypt_mh("Proba 1 2 3", dsa)
 
 print(crypted)
 
